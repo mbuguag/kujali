@@ -26,6 +26,8 @@ export class AddNoteToBudgetHandler extends FunctionHandler<
       throw new Error('Note content cannot be empty.');
     }
 
+    // 2. Data Access (using getRepository from the HandlerToolkit) [cite: 85]
+    // The handler is now stateless and receives its dependencies via the execute method.
     const repo = toolkit.getRepository('budget-notes');
 
     const notePayload = {
@@ -35,6 +37,7 @@ export class AddNoteToBudgetHandler extends FunctionHandler<
       createdAt: command.createdAt,
     };
 
+    // 3. Execution (Repository Call)
     await repo.addNote(notePayload);
 
     toolkit.logger?.info?.('Successfully added note to budget', {

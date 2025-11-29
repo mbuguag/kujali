@@ -35,6 +35,7 @@ export class AddNoteToBudgetHandler extends FunctionHandler<
       createdAt: command.createdAt,
     };
 
+    // 3. Execution (Repository Call)
     await repo.addNote(notePayload);
 
     toolkit.logger?.info?.('Successfully added note to budget', {

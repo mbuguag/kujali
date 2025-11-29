@@ -1,3 +1,4 @@
+
 export class AddNoteToBudgetCommand {
   constructor(
     public readonly budgetId: string,

@@ -1,3 +1,7 @@
+/**
+ * Command: Add Note to Budget
+ * Contains only data required to execute the command.
+ */
 export class AddNoteToBudgetCommand {
   constructor(
     public readonly budgetId: string,

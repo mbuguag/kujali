@@ -13,11 +13,10 @@ export class AddNoteToBudgetHandler extends FunctionHandler<
   async execute(
     command: AddNoteToBudgetCommand,
     toolkit: HandlerToolkit
-  ): Promise<void>
-  {
+  ): Promise<void> {
     if (!command.budgetId) {
-
-        toolkit.logger?.error?.('Budget ID is missing in command.');
+      // Use toolkit logger for better integration
+      toolkit.logger?.error?.('Budget ID is missing in command.');
       throw new Error('Budget ID is required.');
     }
 
@@ -26,6 +25,8 @@ export class AddNoteToBudgetHandler extends FunctionHandler<
       throw new Error('Note content cannot be empty.');
     }
 
+    // 2. Data Access (using getRepository from the HandlerToolkit) [cite: 85]
+    // The handler is now stateless and receives its dependencies via the execute method.
     const repo = toolkit.getRepository('budget-notes');
 
     const notePayload = {
@@ -35,6 +36,7 @@ export class AddNoteToBudgetHandler extends FunctionHandler<
       createdAt: command.createdAt,
     };
 
+    // 3. Execution (Repository Call)
     await repo.addNote(notePayload);
 
     toolkit.logger?.info?.('Successfully added note to budget', {
