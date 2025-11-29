@@ -104,6 +104,7 @@ export class BudgetTableComponent implements AfterViewInit {
     if (this.canPromote) this.doPromote.emit();
   }
 
+  /** Open share screen to configure budget access. */
   openShareBudgetDialog(parent: Budget | false): void {
     this._dialog.open(ShareBudgetModalComponent, {
       panelClass: 'no-pad-dialog',
@@ -112,6 +113,7 @@ export class BudgetTableComponent implements AfterViewInit {
     });
   }
 
+  /** Open clone screen to clone and reconfigure budget. */
   openCloneBudgetDialog(parent: Budget | false): void {
     this._dialog.open(CreateBudgetModalComponent, {
       height: 'fit-content',

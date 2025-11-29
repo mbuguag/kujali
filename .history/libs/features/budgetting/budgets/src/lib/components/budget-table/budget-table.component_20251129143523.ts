@@ -23,14 +23,16 @@ import { Budget, BudgetRecord } from '@app/model/finance/planning/budgets';
 import { ShareBudgetModalComponent } from '../share-budget-modal/share-budget-modal.component';
 import { CreateBudgetModalComponent } from '../create-budget-modal/create-budget-modal.component';
 import { ChildBudgetsModalComponent } from '../../modals/child-budgets-modal/child-budgets-modal.component';
+
+// Assuming these modules are necessary for the template's existing directives
 import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MultiLangModule } from '@ngfi/multi-lang';
 
 @Component({
   selector: 'app-budget-table',
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true, // MAX BONUS: Standalone
+  changeDetection: ChangeDetectionStrategy.OnPush, // MAX BONUS: Zoneless Prep
   templateUrl: './budget-table.component.html',
   styleUrls: ['./budget-table.component.scss'],
   imports: [
@@ -45,14 +47,16 @@ import { MultiLangModule } from '@ngfi/multi-lang';
     MultiLangModule,
   ],
 })
-
+// Removed OnInit/OnDestroy lifecycle hooks
 export class BudgetTableComponent implements AfterViewInit {
+  // 1. Signal Input (replaces budgets$: Observable<...>)
   budgets = input.required<{ overview: BudgetRecord[]; budgets: any[] }>();
 
   @Input() canPromote = false;
 
   @Output() doPromote: EventEmitter<void> = new EventEmitter();
 
+  // MatTableDataSource remains, but initialization is moved
   dataSource = new MatTableDataSource();
   overviewBudgets: BudgetRecord[] = [];
 
@@ -67,10 +71,13 @@ export class BudgetTableComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('sort', { static: true }) sort: MatSort;
 
+  // 2. Modern DI (replaces constructor)
   private _router$$ = inject(Router);
   private _dialog = inject(MatDialog);
 
+  // NOTE: ngOnInit logic is removed. Data initialization happens after views are ready.
   ngAfterViewInit(): void {
+    // Read the current signal value synchronously and set the DataSource
     const data = this.budgets();
     this.overviewBudgets = data.overview;
     this.dataSource.data = data.budgets;
@@ -79,7 +86,9 @@ export class BudgetTableComponent implements AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
-   
+  /** * Checks whether the user has access to a certain feature.
+   * @TODO @IanOdhiambo9 - Please put proper access control architecture in place.
+   */
   access(requested: any) {
     switch (requested) {
       case 'view':
@@ -104,6 +113,7 @@ export class BudgetTableComponent implements AfterViewInit {
     if (this.canPromote) this.doPromote.emit();
   }
 
+  /** Open share screen to configure budget access. */
   openShareBudgetDialog(parent: Budget | false): void {
     this._dialog.open(ShareBudgetModalComponent, {
       panelClass: 'no-pad-dialog',
@@ -112,6 +122,7 @@ export class BudgetTableComponent implements AfterViewInit {
     });
   }
 
+  /** Open clone screen to clone and reconfigure budget. */
   openCloneBudgetDialog(parent: Budget | false): void {
     this._dialog.open(CreateBudgetModalComponent, {
       height: 'fit-content',

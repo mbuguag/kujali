@@ -112,6 +112,7 @@ export class BudgetTableComponent implements AfterViewInit {
     });
   }
 
+  /** Open clone screen to clone and reconfigure budget. */
   openCloneBudgetDialog(parent: Budget | false): void {
     this._dialog.open(CreateBudgetModalComponent, {
       height: 'fit-content',

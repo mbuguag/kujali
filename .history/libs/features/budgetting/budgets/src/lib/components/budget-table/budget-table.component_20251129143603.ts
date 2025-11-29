@@ -71,6 +71,7 @@ export class BudgetTableComponent implements AfterViewInit {
   private _dialog = inject(MatDialog);
 
   ngAfterViewInit(): void {
+    // Read the current signal value synchronously and set the DataSource
     const data = this.budgets();
     this.overviewBudgets = data.overview;
     this.dataSource.data = data.budgets;
@@ -79,7 +80,9 @@ export class BudgetTableComponent implements AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
-   
+  /** * Checks whether the user has access to a certain feature.
+   * @TODO @IanOdhiambo9 - Please put proper access control architecture in place.
+   */
   access(requested: any) {
     switch (requested) {
       case 'view':
@@ -104,6 +107,7 @@ export class BudgetTableComponent implements AfterViewInit {
     if (this.canPromote) this.doPromote.emit();
   }
 
+  /** Open share screen to configure budget access. */
   openShareBudgetDialog(parent: Budget | false): void {
     this._dialog.open(ShareBudgetModalComponent, {
       panelClass: 'no-pad-dialog',
@@ -112,6 +116,7 @@ export class BudgetTableComponent implements AfterViewInit {
     });
   }
 
+  /** Open clone screen to clone and reconfigure budget. */
   openCloneBudgetDialog(parent: Budget | false): void {
     this._dialog.open(CreateBudgetModalComponent, {
       height: 'fit-content',
