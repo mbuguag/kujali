@@ -125,11 +125,11 @@ export class SelectBudgetPageComponent {
     const toSave = ___cloneDeep(record.budget);
 
     delete (toSave as any).canBeActivated;
-    delete (toSave as any).access;
+    delete (toSave as any).access; // Set Active
 
     toSave.status = BudgetStatus.InUse;
 
-    (<any>record).updating = true;
+    (<any>record).updating = true; // Fire update (Subscription is acceptable for action-triggered side effects)
     this._budgets$$.update(toSave).subscribe(() => {
       (<any>record).updating = false;
       this._logger.log(

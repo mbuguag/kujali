@@ -99,10 +99,13 @@ export class SelectBudgetPageComponent {
   }
 
   fieldsFilter(value: (any) => boolean) {
+    // Adjusted type
+    // this.filter$$.next(value);
   }
 
   toogleFilter(value: any) {
-    this.showFilter = value;
+    // Adjusted type
+    this.showFilter = value; // Original was commented out
   }
 
   openDialog(parent: Budget | false): void {
@@ -112,6 +115,7 @@ export class SelectBudgetPageComponent {
       data: parent != null ? parent : false,
     });
 
+    // The subscription for dialog close is kept as it's an action-driven side effect
     dialog.afterClosed().subscribe(() => {
       // Dialog after action
     });
@@ -120,16 +124,17 @@ export class SelectBudgetPageComponent {
 
   canPromote(record: BudgetRecord) {
     return (record.budget as any).canBeActivated;
+  } /** Activate budget -> Promote to be used in  */
 
   setActive(record: BudgetRecord) {
-    const toSave = ___cloneDeep(record.budget);
+    const toSave = ___cloneDeep(record.budget); // Clean up budget record values.
 
     delete (toSave as any).canBeActivated;
-    delete (toSave as any).access;
+    delete (toSave as any).access; // Set Active
 
     toSave.status = BudgetStatus.InUse;
 
-    (<any>record).updating = true;
+    (<any>record).updating = true; // Fire update (Subscription is acceptable for action-triggered side effects)
     this._budgets$$.update(toSave).subscribe(() => {
       (<any>record).updating = false;
       this._logger.log(

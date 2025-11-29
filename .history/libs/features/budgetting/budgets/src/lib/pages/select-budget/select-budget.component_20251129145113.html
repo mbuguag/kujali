@@ -1,0 +1,26 @@
+<app-page>
+    <div>
+        <kujali-finance-toolbar>
+            <kujali-finance-search-header-card header (toogleFilterEvent)='toogleFilter($event)'        
+        (searchTableEvent)='applyFilter($event)' [tableData]="[]">
+                <div add-new>
+                    <button mat-flat-button (click)="openDialog(false)" class="add-new">
+                        <i class="bi bi-plus-circle-fill"></i>
+                        {{'HEADER-ADD-NEW' | transloco}}
+                      </button>
+                  </div>
+              </kujali-finance-search-header-card>
+          </kujali-finance-toolbar>
+
+    @if (showFilter) {
+          <div class="filter-section">
+            <!-- <kujali-invoices-filter (filterChanged)='fieldsFilter($event)'>
+			</kujali-invoices-filter> -->
+                    </div>
+    }
+
+        <div class="table-container">
+                  <app-budget-table [budgets]="allBudgetsData()"></app-budget-table>
+          </div>
+      </div>
+</app-page>
