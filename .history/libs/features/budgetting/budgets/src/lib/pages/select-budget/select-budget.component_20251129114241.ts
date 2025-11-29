@@ -11,7 +11,6 @@ import { Budget, BudgetRecord, BudgetStatus, OrgBudgetsOverview } from '@app/mod
 import { BudgetsStore, OrgBudgetsStore } from '@app/state/finance/budgetting/budgets';
 
 import { CreateBudgetModalComponent } from '../../components/create-budget-modal/create-budget-modal.component';
-import { PageComponent } from "@app/elements/layout/page";
 
 
 @Component({
@@ -19,7 +18,6 @@ import { PageComponent } from "@app/elements/layout/page";
   templateUrl: './select-budget.component.html',
   styleUrls: ['./select-budget.component.scss', 
               '../../components/budget-view-styles.scss'],
-  imports: [PageComponent],
 })
 /** List of all active budgets on the system. */
 export class SelectBudgetPageComponent implements OnInit
